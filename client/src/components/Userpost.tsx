@@ -5,7 +5,7 @@ import Logos from "./Logos";
 
 const Userpost = () => {
   return (
-    <div className="relative mt-12 ">
+    <div className="m-4 relative mt-12 border-t-2 border-b-2 border-gray-700 ">
       <Link to={"/markzuckerberg/post/1"}>
         <div className="flex flex-row gap-3 m-4">
           <div className="flex flex-col items-center  justify-between">
@@ -55,7 +55,7 @@ const Userpost = () => {
         </div>
       </Link>
 
-      <div>
+      <div className="mb-4 ">
         <Logos />
       </div>
     </div>
