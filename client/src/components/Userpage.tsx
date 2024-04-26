@@ -14,7 +14,10 @@ const Userpage = () => {
         </div>
       </div>
 
-      <Userpost />
+      <Userpost postTitle="Hey How am i looking" postImage="/post1.png" />
+      <Userpost postTitle="this app is super cool" postImage="/post2.png" />
+      <Userpost postTitle="I can't get over this" postImage="/post3.png" />
+      <Userpost postTitle="Hey this is my first post" />
     </div>
   );
 };

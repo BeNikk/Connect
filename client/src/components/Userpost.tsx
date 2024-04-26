@@ -3,9 +3,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BsThreeDots } from "react-icons/bs";
 import Logos from "./Logos";
 
-const Userpost = () => {
+interface userpost {
+  postTitle: string;
+  postImage?: string;
+}
+
+const Userpost = ({ postTitle, postImage }: userpost) => {
   return (
-    <div className="m-4 relative mt-12 border-t-2 border-b-2 border-gray-700 ">
+    <div className="mx-4 relative mt-12 border-t-2  border-gray-700 ">
       <Link to={"/markzuckerberg/post/1"}>
         <div className="flex flex-row gap-3 m-4">
           <div className="flex flex-col items-center  justify-between">
@@ -40,11 +45,13 @@ const Userpost = () => {
               <img src="/verified.png" alt="" className="w-4 h-4 mt-2" />
             </div>
             <div>
-              <p className="text-white">This is my first post</p>
+              <p className="text-white">{postTitle}</p>
             </div>
-            <div className="">
-              <img src="/post1.png" className="w-full" alt="" />
-            </div>
+            {postImage && (
+              <div className="">
+                <img src={postImage} className="w-full " alt="" />
+              </div>
+            )}
           </div>
 
           <div className="absolute right-0 mr-2">
@@ -55,7 +62,7 @@ const Userpost = () => {
         </div>
       </Link>
 
-      <div className="mb-4 ">
+      <div className="mb-4 ml-20 ">
         <Logos />
       </div>
     </div>

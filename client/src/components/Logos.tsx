@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const Logos = () => {
   const [liked, setLike] = useState(false);
   const [countLikes, setCountLikes] = useState(1200);
 
   return (
-    <div className="flex flex-col justify-start ml-24">
+    <div className="flex flex-col justify-start ">
       <div className="flex flex-row items-center justify-start gap-4">
         <div
           onClick={() => {
@@ -14,7 +16,7 @@ const Logos = () => {
           }}
         >
           <img
-            src={`${liked ? "/heart-filled.svg" : "heart-gray.svg"}`}
+            src={`${liked ? "/heart-filled.svg" : "/heart-gray.svg"}`}
             alt=""
             className={` w-8 h-8`}
             onClick={() => {
