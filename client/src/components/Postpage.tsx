@@ -9,7 +9,7 @@ import Comments from "./Comments";
 const Postpage = () => {
   return (
     <div className="mt-8 mx-4">
-      <div className="flex flex-col gap-4 justify-center mx-4">
+      <div className="flex flex-col gap-4 justify-center mx-4">""
         <div className="flex flex-row justify-between w-full">
           <div>
             <div className="flex flex-row justify-start items-center gap-3">
