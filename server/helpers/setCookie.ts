@@ -25,6 +25,7 @@ export default async function generateToken(username:string,res:Response) {
         
     }catch(e){
         console.log(`error in signing ${e}`);
+        return res.json({message:"error occured in setting cookie"});
     }
 
 

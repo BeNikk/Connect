@@ -44,6 +44,6 @@ export default async function CreatePost(req:Request,res:Response){
 
     }catch(e){
         console.log(e);
-        res.json({message:"error in creating post"});
+       return  res.json({message:"error in creating post"});
     }
 }
