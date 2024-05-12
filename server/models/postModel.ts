@@ -4,7 +4,7 @@ const postModel=new mongoose.Schema({
     postedBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-        // required:true
+        required:true
     },
     text:{
         type:String,
