@@ -4,6 +4,7 @@ import Login from '../controller/Login';
 import Logout from '../controller/Logout';
 import Follow from '../controller/FollowUser';
 import middleware from '../middleware/middleware';
+import UserUpdate from '../controller/UserUpdate';
 
 const userRouter=express.Router();
 
@@ -16,5 +17,6 @@ userRouter.post('/signup',signup);
 userRouter.post('/login',Login);
 userRouter.post('/logout',Logout);
 userRouter.post('/follow/:id',middleware,Follow);
+userRouter.post('/update/:id',middleware,UserUpdate);
 
 export {userRouter};
