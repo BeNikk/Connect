@@ -5,9 +5,15 @@ import bcrypt from 'bcryptjs';
 export default async function UserUpdate(req:Request,res:Response){
     try{
         const{name,username,email,password,profilepic,bio}=req.body;
+        
         if(req.headers["userId"] && !Array.isArray(req.headers["userId"])){
+            
+
 
             const currentUser=JSON.parse(req.headers["userId"]);
+            if(req.params.id!=(currentUser._id).toString()){
+                res.json({message:"you cannot update other person's profile"});
+            }
             const currentUserId=currentUser._id;
             let user=await User.findById(currentUserId);
             if(!user){
