@@ -7,7 +7,7 @@ export default async function signup(req:Request,res:Response){
         const {name,username,email,password}=req.body;
         const user=await User.findOne({$or:[{username},{email}]});
         if(user){
-            res.status(400).json({message:"User already exists"});
+           return res.status(400).json({message:"User already exists"});
 
         }
         else{
@@ -23,7 +23,7 @@ export default async function signup(req:Request,res:Response){
             await newUser.save();
             if(newUser){
                 generateToken(newUser.username,res);
-                res.status(200).json({
+               return res.status(200).json({
                     id:newUser._id,
                     name:newUser.name,
                     email:newUser.email,
@@ -31,13 +31,13 @@ export default async function signup(req:Request,res:Response){
                     username:newUser.username
                 });
             }else{
-                res.status(400).json({message:"Invalid user data"});
+             return   res.status(400).json({message:"Invalid user data"});
             }
         }
 
 
     }catch(e){
         console.log(`error ${e}`);
-        res.status(500).send(`Error in the server`);
+      return  res.status(500).send(`Error in the server`);
     }
 }

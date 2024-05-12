@@ -12,12 +12,12 @@ export default async function UserUpdate(req:Request,res:Response){
 
             const currentUser=JSON.parse(req.headers["userId"]);
             if(req.params.id!=(currentUser._id).toString()){
-                res.json({message:"you cannot update other person's profile"});
+               return res.json({message:"you cannot update other person's profile"});
             }
             const currentUserId=currentUser._id;
             let user=await User.findById(currentUserId);
             if(!user){
-                res.json({message:"user not found"});
+               return res.json({message:"user not found"});
 
             }
             if(password && user){
@@ -34,7 +34,7 @@ export default async function UserUpdate(req:Request,res:Response){
                 user.profilePicture=profilepic || user.profilePicture;
                 user.bio=bio || user.bio;
                 user=await user.save();
-                res.json({message:"profile successfully updated",user});
+             return   res.json({message:"profile successfully updated",user});
 
             }
 
@@ -42,6 +42,6 @@ export default async function UserUpdate(req:Request,res:Response){
         }
 
     }catch(e){
-        res.json({message:"error in updating the user"})
+       return res.json({message:"error in updating the user"})
     }
 }

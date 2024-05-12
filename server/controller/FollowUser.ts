@@ -13,7 +13,7 @@ export default async function Follow(req:Request,res:Response){
             const currentUser=await User.findById(currentUserInfo._id);
             
             if(id==currentUserInfo._id){//objects needed to be equated using _.isequal, (simply equated they will give false)
-             res.json({message:"you cannot follow unfollow yourself"});
+             return res.json({message:"you cannot follow unfollow yourself"});
                 
     
             }
@@ -26,19 +26,19 @@ export default async function Follow(req:Request,res:Response){
                         await User.findByIdAndUpdate(currentUserInfo._id,{ $pull:{following:id}});
                         await User.findByIdAndUpdate(userToModify._id,{$pull:{followers:currentUserInfo._id}});
 
-                        res.json({message:"user successfully unfollowed"});
+                        return res.json({message:"user successfully unfollowed"});
                     }
                     else{
                         await User.findByIdAndUpdate(currentUserInfo._id,{$push:{following:userToModify._id}});
                         await User.findByIdAndUpdate(userToModify._id,{$push:{followers:currentUserInfo._id}});
-                        res.json({message:"user successfully followed"});
+                      return   res.json({message:"user successfully followed"});
                     }
                 }
 
             }
         }
         else{
-            res.json({message:"unauthorized/invalid user header"});
+          return  res.json({message:"unauthorized/invalid user header"});
         }
 
         //const currentUser=await User.findById(id);

@@ -19,11 +19,13 @@ const middleware = async(req:Request,res:Response,next:NextFunction) => {
         if(typeof user==="string"){
             return res.status(403);
         }
-        
-          req.headers["userId"]=JSON.stringify(user);
+        else{
 
-          next();
-        
+          req.headers["userId"]= JSON.stringify(user);
+  
+            next();
+          
+        }
 
 
 
@@ -40,12 +42,12 @@ const middleware = async(req:Request,res:Response,next:NextFunction) => {
         
     }
     else{
-        res.json({message:`Unauthorized`});
+      return  res.json({message:`Unauthorized`});
     }
 
   } catch(e){
     console.log(`error occured`);
-    res.json({error:e});
+   return res.json({error:e});
   } 
 }
 

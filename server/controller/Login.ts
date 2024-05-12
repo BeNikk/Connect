@@ -32,10 +32,10 @@ export default async function Login(req:Request,res:Response){
                 });
 
             }else{
-                res.status(400).json({message:"Password incorrect"});
+                return res.status(400).json({message:"Password incorrect"});
             }
         }else{
-            res.status(400).json({message:"No User Found"});
+           return  res.status(400).json({message:"No User Found"});
         }
         
 
@@ -43,6 +43,6 @@ export default async function Login(req:Request,res:Response){
 
     }catch(e){
         console.log(`error occured ${e}`);
-        res.status(500).json({errorMessage:e});
+       return  res.status(500).json({errorMessage:e});
     }
 }
