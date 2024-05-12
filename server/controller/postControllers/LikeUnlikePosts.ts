@@ -27,7 +27,7 @@ export default async function LikeUnlikePosts(req:Request,res:Response){
 
 
                 }else{
-                    console.log("i am here");
+                    
                     await Post.findByIdAndUpdate(post._id,{$push:{likes:user._id}});
                     return res.json({message:"post liked"});
 
