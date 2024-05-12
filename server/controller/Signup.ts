@@ -22,9 +22,9 @@ export default async function signup(req:Request,res:Response){
             });
             await newUser.save();
             if(newUser){
-                generateToken(newUser.username,res)
+                generateToken(newUser.username,res);
                 res.status(200).json({
-                    _id:newUser._id,
+                    id:newUser._id,
                     name:newUser.name,
                     email:newUser.email,
                     password:newUser.password,
