@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { toast } from "react-hot-toast";
 import {
   Form,
   FormControl,
@@ -13,6 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useSetRecoilState } from "recoil";
+import authScreenAtom from "@/atoms/authAtom";
+import userAtom from "@/atoms/userAtom";
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -32,10 +35,31 @@ const formSchema = z.object({
 });
 
 const Signup = () => {
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const setAuthscreen = useSetRecoilState(authScreenAtom);
+  const setUser = useSetRecoilState(userAtom);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      } else {
+        localStorage.setItem("user-Info", JSON.stringify(data));
+        setUser(data);
+
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log("error in handleSignup");
+    }
   }
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,15 +84,15 @@ const Signup = () => {
               name="username"
               render={({ field }) => (
                 <div>
-                  <FormItem className="mb-4">
-                    <FormLabel className="text-black mt-2 py-2 text-lg">
+                  <FormItem className="">
+                    <FormLabel className="text-black mt-2 text-lg">
                       Username
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Username"
                         {...field}
-                        className="text-black mb-4"
+                        className="text-black"
                       />
                     </FormControl>
                     <FormDescription>
@@ -85,7 +109,7 @@ const Signup = () => {
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel className="text-black mt-2 py-2 text-lg">
+                    <FormLabel className="text-black mt-2  text-lg">
                       Name
                     </FormLabel>
                     <FormControl>
@@ -107,7 +131,7 @@ const Signup = () => {
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel className="text-black mt-2 py-2 text-lg">
+                    <FormLabel className="text-black mt-2  text-lg">
                       E-mail
                     </FormLabel>
                     <FormControl>
@@ -129,7 +153,7 @@ const Signup = () => {
               render={({ field }) => (
                 <div>
                   <FormItem>
-                    <FormLabel className="text-black mt-2 py-2 text-lg">
+                    <FormLabel className="text-black mt-2  text-lg">
                       Password
                     </FormLabel>
                     <FormControl>
@@ -147,6 +171,17 @@ const Signup = () => {
             />
           </div>
           <Button type="submit">Submit</Button>
+          <p className=" text-black text-md">
+            Already have an Account{" "}
+            <span
+              className="text-blue-500 cursor-pointer"
+              onClick={() => {
+                setAuthscreen("login");
+              }}
+            >
+              Login
+            </span>{" "}
+          </p>
         </form>
       </Form>
     </div>
