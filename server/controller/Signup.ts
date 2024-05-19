@@ -7,7 +7,7 @@ export default async function signup(req:Request,res:Response){
         const {name,username,email,password}=req.body;
         const user=await User.findOne({$or:[{username},{email}]});
         if(user){
-           return res.status(400).json({message:"User already exists"});
+           return res.status(400).json({error:"User already exists"});
 
         }
         else{
@@ -24,14 +24,15 @@ export default async function signup(req:Request,res:Response){
             if(newUser){
                 generateToken(newUser.username,res);
                return res.status(200).json({
-                    id:newUser._id,
+                    _id:newUser._id,
                     name:newUser.name,
                     email:newUser.email,
                     password:newUser.password,
-                    username:newUser.username
+                    username:newUser.username,
+                    message:"Succesfully signed up"
                 });
             }else{
-             return   res.status(400).json({message:"Invalid user data"});
+             return   res.status(400).json({error:"Invalid user data"});
             }
         }
 

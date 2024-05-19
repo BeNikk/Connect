@@ -17,6 +17,6 @@ userRouter.post('/signup',signup);
 userRouter.post('/login',Login);
 userRouter.post('/logout',Logout);
 userRouter.post('/follow/:id',middleware,Follow);
-userRouter.post('/update/:id',middleware,UserUpdate);
+userRouter.put('/update/:id',middleware,UserUpdate);
 
 export {userRouter};

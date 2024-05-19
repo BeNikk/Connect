@@ -5,6 +5,6 @@ export default async function Logout(req:Request,res:Response){
        return res.clearCookie('token').json({message:"Logged out successfully"});
 
     }catch(e){
-      return  res.status(500).json({message:`some error occured ${e}`});
+      return  res.status(500).json({error:`some error occured ${e}`});
     }
 }

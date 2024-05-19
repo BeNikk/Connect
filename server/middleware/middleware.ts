@@ -42,7 +42,7 @@ const middleware = async(req:Request,res:Response,next:NextFunction) => {
         
     }
     else{
-      return  res.json({message:`Unauthorized`});
+      return  res.json({error:`Unauthorized`});
     }
 
   } catch(e){
