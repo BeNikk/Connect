@@ -41,7 +41,13 @@ export default async function UserUpdate(req:Request,res:Response){
 
             }
             if(profilePicture){
-                
+                if(user.profilePicture){
+                    let img=user.profilePicture.split("/").pop()
+                    if(img){
+
+                        await cloudinary.uploader.destroy(img.split(".")[0]);
+                    }
+                }
                 const uploadResponse=await cloudinary.uploader.upload(profilePicture);
                 profilePicture=uploadResponse.secure_url;
             }
