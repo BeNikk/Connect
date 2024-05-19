@@ -31,14 +31,7 @@ const Appbar = () => {
     <div>
       <div className="flex flex-row items-center justify-evenly m-4">
         <img src="/light-logo.svg" alt="image" className="w-8 h-8" />
-        {user && (
-          <Button
-            className="bg-blue-400 font-bold text-sm"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        )}
+        {user && <Button onClick={handleLogout}>Logout</Button>}
       </div>
     </div>
   );

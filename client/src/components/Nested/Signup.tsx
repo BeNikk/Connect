@@ -53,6 +53,7 @@ const Signup = () => {
         return;
       } else {
         localStorage.setItem("user-Info", JSON.stringify(data));
+        localStorage.setItem("userId", JSON.stringify(data._id));
         setUser(data);
 
         toast.success(data.message);

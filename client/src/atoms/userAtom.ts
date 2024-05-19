@@ -2,8 +2,8 @@ import { atom } from "recoil";
 
 
 let defaultdata=(localStorage.getItem("user-Info"));
-if(!defaultdata){
-    defaultdata=null;
+if(defaultdata){
+    defaultdata=JSON.parse(defaultdata);
 }
 
 const userAtom=atom({
