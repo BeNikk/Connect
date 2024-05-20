@@ -1,7 +1,46 @@
+import userAtom from "@/atoms/userAtom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BsInstagram } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const UserHeader = ({ user }: any) => {
+  const currentUser = useRecoilValue<any>(userAtom);
+  const [following, setFollowing] = useState(
+    user.followers.includes(currentUser._id)
+  );
+  const [updating, setUpdating] = useState(false);
+  const userHeader = localStorage.getItem("userId") || "";
+  const handleFollow = async () => {
+    try {
+      setUpdating(true);
+      const res = await fetch(`/api/user/follow/${user._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          userId: userHeader,
+        },
+      });
+      const data = await res.json();
+      if (data.error) {
+        toast.error(data.error);
+      }
+      if (following) {
+        user.followers.pop();
+      } else {
+        user.followers.push(currentUser._id);
+      }
+      setFollowing(!following);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error("Some error occured");
+    } finally {
+      setUpdating(false);
+    }
+  };
   return (
     <div>
       <div className="flex flex-row justify-between m-6 lg:m-2">
@@ -20,6 +59,18 @@ const UserHeader = ({ user }: any) => {
           <div>
             <div className="mt-16 flex flex-col gap-4">
               <p className="text-white font-medium text-lg">{user.bio}</p>
+              {currentUser.user._id == user._id && (
+                <Link to="/update">
+                  <Button>Update Profile</Button>
+                </Link>
+              )}
+              {currentUser.user._id !== user._id && (
+                <div>
+                  <Button onClick={handleFollow} disabled={updating}>
+                    {following ? "Unfollow" : "Follow"}
+                  </Button>
+                </div>
+              )}
               <div className="flex flex-row items-center gap-2 mt-6">
                 <p className="text-gray-400 hover:underline cursor-pointer">
                   {user.followers.length} followers

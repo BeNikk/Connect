@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useRecoilState } from "recoil";
 import userAtom from "@/atoms/userAtom";
 import useImagePreview from "@/hooks/useImagePreview";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
@@ -49,6 +49,8 @@ const UserUpdate = () => {
   const [user, setUser]: any = useRecoilState<any>(userAtom);
   const fileref = useRef<any>(null);
   const { handleImageChange, imageUrl, setImageUrl } = useImagePreview();
+  const [updating, setUpdating] = useState(false);
+  const userHeader = localStorage.getItem("userId") || "";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,6 +66,7 @@ const UserUpdate = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setUpdating(true);
       const updateData = {
         name: values.name,
         username: values.username,
@@ -78,6 +81,7 @@ const UserUpdate = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          userId: userHeader,
         },
         body: JSON.stringify(updateData),
       });
@@ -91,6 +95,8 @@ const UserUpdate = () => {
       localStorage.setItem("user-Info", JSON.stringify(data));
     } catch (error) {
       toast.error("Some error occured");
+    } finally {
+      setUpdating(false);
     }
   }
 
@@ -240,6 +246,7 @@ const UserUpdate = () => {
             <Button
               type="submit"
               className="bg-green-500 text-lg font-bold p-4 "
+              disabled={updating}
             >
               Submit
             </Button>
