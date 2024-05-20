@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 import { userRouter } from './routes/userRoutes';
 import postRouter from './routes/postRoute';
 import {v2 as cloudinary} from 'cloudinary';
-
 dotenv.config();
+
 const cloudName=process.env.CLOUDINARY_CLOUD_NAME || ""
 const apiKey=process.env.CLOUDINARY_API_KEY || ""
 const apiSecret=process.env.CLOUDINARY_API_SECRET || ""
@@ -17,9 +17,9 @@ cloudinary.config({
 })
 const app=express();
 const port=process.env.PORT;
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(cookieParser());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({limit:'50mb',extended:true}));
 connectDB();
 
 app.use('/api/user',userRouter);
