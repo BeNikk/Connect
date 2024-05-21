@@ -60,7 +60,7 @@ export default async function UserUpdate(req:Request,res:Response){
                 user.bio=bio || user.bio;
                 user._id=user._id;
                 user=await user.save();
-             return   res.json({message:"profile successfully updated",user});
+             return   res.json(user);
 
             }
             
