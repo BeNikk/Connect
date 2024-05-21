@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Logos = () => {
+const Logos = ({ post }: any) => {
   const [liked, setLike] = useState(false);
   const [countLikes, setCountLikes] = useState(1200);
 
@@ -36,8 +36,12 @@ const Logos = () => {
         </div>
       </div>
       <div className="flex flex-row gap-2 mt-4">
-        <div className="text-gray-400 hover:underline ">437 replies</div>
-        <div className="text-gray-400 hover:underline">{countLikes} likes</div>
+        <div className="text-gray-400 hover:underline ">
+          {post.replies.length} replies
+        </div>
+        <div className="text-gray-400 hover:underline">
+          {post.likes.length} likes
+        </div>
       </div>
     </div>
   );
