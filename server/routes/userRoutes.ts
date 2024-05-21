@@ -6,6 +6,7 @@ import Follow from '../controller/FollowUser';
 import middleware from '../middleware/middleware';
 import UserUpdate from '../controller/UserUpdate';
 import getUser from '../controller/getUser';
+import getUserById from '../controller/getUserById';
 
 const userRouter=express.Router();
 
@@ -20,4 +21,6 @@ userRouter.post('/logout',Logout);
 userRouter.post('/follow/:id',middleware,Follow);
 userRouter.put('/update/:id',middleware,UserUpdate);
 userRouter.get('/:username',getUser);
+userRouter.get('/id/:userId',getUserById);
+
 export {userRouter};

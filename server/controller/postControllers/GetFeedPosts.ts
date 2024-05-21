@@ -4,6 +4,7 @@ import Post from "../../models/postModel";
 
 export default async function GetFeedPosts(req:Request,res:Response){
     try{
+              
         if(req.headers["userId"] && !Array.isArray(req.headers["userId"])){
             const userHeader=JSON.parse(req.headers["userId"]);
             const user=await User.findById(userHeader._id);
@@ -12,6 +13,9 @@ export default async function GetFeedPosts(req:Request,res:Response){
 
             }
             const following =user.following;
+            if(following.length==0){
+                return res.json({error:"Follow some users to see posts"});
+            }
             const feedposts=await Post.find({postedBy:{$in:following}}).sort({createdAt:-1});
             return res.json(feedposts);
 

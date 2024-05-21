@@ -9,8 +9,8 @@ import GetFeedPosts from '../controller/postControllers/GetFeedPosts';
 const postRouter=express.Router();
 
 postRouter.post('/create',middleware,CreatePost);
-postRouter.get('/:id',Getposts);
-postRouter.delete('/:id',middleware,DeletePosts);
+postRouter.get('/post/:id',Getposts);
+postRouter.delete('/post/:id',middleware,DeletePosts);
 postRouter.post('/like/:id',middleware,LikeUnlikePosts);
 postRouter.post('/reply/:id',middleware,ReplyToPosts);
 postRouter.get('/feed',middleware,GetFeedPosts);
