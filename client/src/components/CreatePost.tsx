@@ -23,7 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const formSchema = z.object({
@@ -32,6 +32,7 @@ const formSchema = z.object({
 });
 
 const CreatePost = () => {
+  const [posting, setPosting] = useState(false);
   const postedUser = localStorage.getItem("userId") || "";
   console.log(postedUser);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,6 +45,7 @@ const CreatePost = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setPosting(true);
       const dataToPost = {
         text: values.text,
         image: imageUrl,
@@ -65,6 +67,8 @@ const CreatePost = () => {
       toast.success(data.message);
     } catch (error) {
       return toast.error("Some error occured");
+    } finally {
+      setPosting(false);
     }
   }
   const imageRef = useRef<any>(null);
@@ -123,6 +127,7 @@ const CreatePost = () => {
                     <div className="relative">
                       <img src={imageUrl} alt="Selected Image" />
                       <Button
+                        disabled={posting}
                         className="absolute top-2 right-2"
                         onClick={() => {
                           setImageUrl(null);
@@ -132,7 +137,9 @@ const CreatePost = () => {
                       </Button>
                     </div>
                   )}
-                  <Button type="submit">Post</Button>
+                  <Button type="submit" disabled={posting}>
+                    Post
+                  </Button>
                 </form>
               </Form>
             </DialogDescription>

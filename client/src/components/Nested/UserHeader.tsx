@@ -9,8 +9,9 @@ import { toast } from "react-hot-toast";
 
 const UserHeader = ({ user }: any) => {
   const currentUser = useRecoilValue<any>(userAtom);
+  console.log("hey", currentUser);
   const [following, setFollowing] = useState(
-    user.followers.includes(currentUser.user._id)
+    user.followers.includes(currentUser._id)
   );
   const [updating, setUpdating] = useState(false);
   const userHeader = localStorage.getItem("userId") || "";
@@ -31,7 +32,7 @@ const UserHeader = ({ user }: any) => {
       if (following) {
         user.followers.pop();
       } else {
-        user.followers.push(currentUser.user._id);
+        user.followers.push(currentUser._id);
       }
       setFollowing(!following);
       toast.success(data.message);
@@ -59,12 +60,12 @@ const UserHeader = ({ user }: any) => {
           <div>
             <div className="mt-16 flex flex-col gap-4">
               <p className="text-white font-medium text-lg">{user.bio}</p>
-              {currentUser.user._id == user._id && (
+              {currentUser._id == user._id && (
                 <Link to="/update">
                   <Button>Update Profile</Button>
                 </Link>
               )}
-              {currentUser.user._id !== user._id && (
+              {currentUser._id !== user._id && (
                 <div>
                   <Button onClick={handleFollow} disabled={updating}>
                     {following ? "Unfollow" : "Follow"}

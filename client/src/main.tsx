@@ -4,12 +4,15 @@ import App from "./App.tsx";
 import "./index.css";
 import { RecoilRoot } from "recoil";
 import { Toaster } from "react-hot-toast";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-      <Toaster />
-    </RecoilRoot>
+    <BrowserRouter>
+      <RecoilRoot>
+        <App />
+        <Toaster />
+      </RecoilRoot>
+    </BrowserRouter>
   </React.StrictMode>
 );
