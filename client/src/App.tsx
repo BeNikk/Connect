@@ -13,6 +13,7 @@ import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
 import Homepage from "./components/Homepage";
 import UserUpdate from "./components/UserUpdate";
+import CreatePost from "./components/CreatePost";
 const App = () => {
   const user = useRecoilValue(userAtom);
   console.log(user);
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/test" element={<Test />} />
         </Routes>
       </Router>
+      {user && <CreatePost />}
     </div>
   );
 };

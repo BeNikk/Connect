@@ -31,7 +31,7 @@ const UserHeader = ({ user }: any) => {
       if (following) {
         user.followers.pop();
       } else {
-        user.followers.push(currentUser._id);
+        user.followers.push(currentUser.user._id);
       }
       setFollowing(!following);
       toast.success(data.message);
