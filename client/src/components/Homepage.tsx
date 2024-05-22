@@ -25,18 +25,24 @@ const Homepage = () => {
       }
     }
     getPosts();
-  }, []);
+  }, [posts]);
+  if (posts) {
+    return (
+      <div>
+        {posts &&
+          posts.map((post: any) => {
+            return (
+              <div>
+                <Post post={post} userId={post.postedBy} />
+              </div>
+            );
+          })}
+      </div>
+    );
+  }
   return (
     <div>
       <div>{!posts && <div>Loading</div>}</div>
-      {posts &&
-        posts.map((post: any) => {
-          return (
-            <div>
-              <Post post={post} userId={post.postedBy} />
-            </div>
-          );
-        })}
     </div>
   );
 };

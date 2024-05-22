@@ -1,7 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Button } from "./ui/button";
 import userAtom from "@/atoms/userAtom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import { toast } from "react-hot-toast";
@@ -10,6 +10,7 @@ import { IoIosLogOut } from "react-icons/io";
 const Appbar = () => {
   const user = useRecoilValue<any>(userAtom);
   const setUser = useSetRecoilState(userAtom);
+  const navigate = useNavigate();
 
   async function handleLogout() {
     try {
@@ -25,6 +26,8 @@ const Appbar = () => {
       } else {
         localStorage.removeItem("user-Info");
         toast.success(data.message);
+        navigate("/auth");
+
         setUser(null);
       }
     } catch (error) {
