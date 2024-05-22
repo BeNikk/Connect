@@ -20,6 +20,7 @@ import userAtom from "@/atoms/userAtom";
 import useImagePreview from "@/hooks/useImagePreview";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -51,6 +52,7 @@ const UserUpdate = () => {
   const { handleImageChange, imageUrl, setImageUrl } = useImagePreview();
   const [updating, setUpdating] = useState(false);
   const userHeader = localStorage.getItem("userId") || "";
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,7 +62,6 @@ const UserUpdate = () => {
       name: user.name,
       bio: user.bio,
       password: "",
-      profilePicture: imageUrl || user.profilePicture,
     },
   });
 
@@ -75,7 +76,6 @@ const UserUpdate = () => {
         bio: values.bio,
         email: values.email,
       };
-      console.log(updateData);
 
       const res = await fetch(`/api/user/update/${user._id}`, {
         method: "PUT",
@@ -87,12 +87,13 @@ const UserUpdate = () => {
       });
       const data = await res.json();
       if (data.error) {
-        console.log(data.error);
         return toast.error("Error updating the profile");
       }
-      toast.success(data.message);
+      toast.success("User updated successfully");
+
       setUser(data);
       localStorage.setItem("user-Info", JSON.stringify(data));
+      navigate(`/${user.username}`);
     } catch (error) {
       toast.error("Some error occured");
     } finally {
@@ -155,7 +156,7 @@ const UserUpdate = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="shadcn"
+                    placeholder="username"
                     {...field}
                     className="bg-[#1F1E1F] text-white border-neutral-700"
                   />
@@ -173,7 +174,7 @@ const UserUpdate = () => {
                 <FormLabel className="text-xl font-semibold">Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder=""
+                    placeholder="name"
                     {...field}
                     className="bg-[#1F1E1F] text-white border-neutral-700"
                   />
@@ -191,7 +192,7 @@ const UserUpdate = () => {
                 <FormLabel className="text-xl font-semibold">Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="shadcn"
+                    placeholder="email"
                     {...field}
                     className="bg-[#1F1E1F] text-white border-neutral-700"
                   />

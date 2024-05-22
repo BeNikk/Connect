@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Post from "./Post";
 
+interface PostType {
+  text: string;
+  image: string;
+  postedBy: string;
+}
 const Homepage = () => {
   const userId = localStorage.getItem("userId") || "";
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function getPosts() {
       try {
@@ -17,32 +24,32 @@ const Homepage = () => {
         });
         const data = await res.json();
         setPosts(data);
+        setLoading(false);
         if (data.error) {
           toast.error(data.error);
         }
       } catch (error) {
-        return toast.error("Error in fetching the posts");
+        setLoading(false);
+        toast.error("Error in fetching the posts");
       }
     }
     getPosts();
-  }, [posts]);
-  if (posts) {
-    return (
-      <div>
-        {posts &&
-          posts.map((post: any) => {
-            return (
-              <div>
-                <Post post={post} userId={post.postedBy} />
-              </div>
-            );
-          })}
-      </div>
-    );
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
+
   return (
     <div>
-      <div>{!posts && <div>Loading</div>}</div>
+      {posts.map((post) => (
+        <div>
+          <Post post={post} userId={post.postedBy} />
+        </div>
+      ))}
+      {posts.length === 0 && (
+        <div className="text-white">Follow users to get some posts</div>
+      )}
     </div>
   );
 };
