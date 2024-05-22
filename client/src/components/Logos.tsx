@@ -20,11 +20,13 @@ const Logos = ({ post: post_ }: { post: any }) => {
   const [liked, setLiked] = useState(post_.likes.includes(user?._id));
   const userId = localStorage.getItem("userId") || "";
   const [post, setPost] = useState(post_);
+  const [loading, setLoading] = useState(false);
   async function handleLikeUnlike() {
     if (!user) {
       toast.error("Login required");
     }
     try {
+      setLoading(true);
       const res = await fetch(`/api/post/like/${post_._id}`, {
         method: "PUT",
         headers: {
@@ -48,6 +50,8 @@ const Logos = ({ post: post_ }: { post: any }) => {
       console.log(data);
     } catch (error) {
       return toast.error("erorr occured");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -58,13 +62,15 @@ const Logos = ({ post: post_ }: { post: any }) => {
       {post && (
         <div>
           <div className="flex flex-row items-center justify-start gap-4">
-            <div onClick={() => {}}>
-              <img
-                src={`${liked ? "/heart-filled.svg" : "/heart-gray.svg"}`}
-                alt=""
-                className={`cursor-pointer w-8 h-8`}
-                onClick={handleLikeUnlike}
-              />
+            <div>
+              <button disabled={loading}>
+                <img
+                  src={`${liked ? "/heart-filled.svg" : "/heart-gray.svg"}`}
+                  alt=""
+                  className={`cursor-pointer w-8 h-8`}
+                  onClick={handleLikeUnlike}
+                />
+              </button>
             </div>
             <div>
               <img src="/reply.svg" alt="" className="w-8 h-8" />
