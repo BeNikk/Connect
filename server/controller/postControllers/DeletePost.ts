@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import User from "../../models/userModel";
 import Post from "../../models/postModel";
-
+import { v2 as cloudinary } from "cloudinary";
 export default async function DeletePosts(req:Request,res:Response){
     try{
         const {id}=req.params;
@@ -12,13 +12,21 @@ export default async function DeletePosts(req:Request,res:Response){
             if(!post){
                 return res.json({message:"no post found"});
             }
+            if(post.image){
+             const imgMod=post.image.split("/");
+             const imageId=imgMod.pop()?.split(".")[0];
+             if(imageId){
+
+                 await cloudinary.uploader.destroy(imageId);
+             }
+            }
             if(!user || (user._id.toString()!=post?.postedBy.toString())){
                 return res.json({message:"unauthorized"});
             }
-            else{
+            
                 await Post.findByIdAndDelete(id);
                 return res.json({message:"post deleted successfully"});
-            }
+            
 
         }
 
