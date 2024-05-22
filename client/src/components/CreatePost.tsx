@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/form";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   text: z.optional(z.string()),
@@ -34,6 +35,7 @@ const formSchema = z.object({
 const CreatePost = () => {
   const [posting, setPosting] = useState(false);
   const postedUser = localStorage.getItem("userId") || "";
+  const navigate = useNavigate();
   console.log(postedUser);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,6 +67,7 @@ const CreatePost = () => {
         return toast.error(data.error);
       }
       toast.success(data.message);
+      navigate("/");
     } catch (error) {
       return toast.error("Some error occured");
     } finally {

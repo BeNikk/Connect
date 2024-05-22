@@ -3,10 +3,13 @@ import Userpost from "./Userpost";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import Post from "./Post";
 
 const Userpage = () => {
   const [user, setUser] = useState<any>(null);
   const { username } = useParams();
+  const [posts, setPost] = useState([]);
+  const [fetchingPost, setFetchingPost] = useState(false);
 
   const getUser = async () => {
     try {
@@ -17,14 +20,30 @@ const Userpage = () => {
         toast.error(data.error);
       } else {
         setUser(data);
-        console.log(data);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  const getPosts = async () => {
+    try {
+      setFetchingPost(true);
+      const res = await fetch(`/api/post/userpost/${username}`);
+      const data = await res.json();
+      if (data.error) {
+        toast.error(data.error);
+      }
+      setPost(data);
+    } catch (error) {
+      toast.error("some error occured");
+      setPost([]);
+    } finally {
+      setFetchingPost(false);
+    }
+  };
   useEffect(() => {
     getUser();
+    getPosts();
   }, [username]);
 
   if (!user) {
@@ -50,10 +69,28 @@ const Userpage = () => {
             Replies
           </div>
         </div>
-
-        <Userpost postTitle="Hey How am i looking" postImage="/post1.png" />
-        <Userpost postTitle="this app is super cool" postImage="/post2.png" />
-        <Userpost postTitle="I can't get over this" postImage="/post3.png" />
+        {!fetchingPost && posts.length == 0 && (
+          <div>
+            <p className="text-white mt-40 ml-52 text-xl">
+              User does not have any post
+            </p>
+          </div>
+        )}
+        {fetchingPost && (
+          <div>
+            <p className="text-white mt-40 ml-52 text-xl">
+              User does not have any post
+            </p>{" "}
+          </div>
+        )}
+        {posts &&
+          posts.map((post: any) => {
+            return (
+              <div>
+                <Post key={post._id} post={post} userId={post.postedBy} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

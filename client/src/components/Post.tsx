@@ -1,11 +1,25 @@
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { BsThreeDots } from "react-icons/bs";
 import Logos from "./Logos";
 import { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
+import { useRecoilValue } from "recoil";
+import userAtom from "@/atoms/userAtom";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "./ui/button";
+import { toast } from "react-hot-toast";
+
 const Post = ({ post, userId }: any) => {
   const [user, setUser] = useState<any>(null);
+  const currentUser = useRecoilValue<any>(userAtom);
   useEffect(() => {
     async function getUser() {
       const res = await fetch(`/api/user/id/${userId}`);
@@ -21,6 +35,7 @@ const Post = ({ post, userId }: any) => {
       imageSource = "/blank-profile-picture.png";
     }
   }
+
   if (!post) {
     return (
       <div>
@@ -36,12 +51,12 @@ const Post = ({ post, userId }: any) => {
             <div className="flex flex-row gap-3 m-4">
               <div className="flex flex-col items-center justify-between">
                 <Link to={user.username}>
-                  <Avatar className="w-12 h-12">
+                  <Avatar className="-ml-6 w-12 h-12">
                     <AvatarImage src={imageSource} />
                     <AvatarFallback className="text-white">MZ</AvatarFallback>
                   </Avatar>
                 </Link>
-                <div className=" border-l-2 ml-6 border-gray-700 ">line</div>
+                <div className=" border-l-2 ml-2 border-gray-700 ">line</div>
 
                 <div>
                   <div className="flex flex-row items-center">
@@ -101,10 +116,55 @@ const Post = ({ post, userId }: any) => {
                 )}
               </div>
 
-              <div className="absolute right-0 mr-2">
+              <div className="absolute right-0 mr-2 flex flex-row items-center gap-2">
                 <p className="text-gray-400">
                   {formatDistanceToNow(new Date(post.createdAt))} ago
                 </p>
+                {currentUser?._id == user._id && (
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Dialog>
+                      <DialogTrigger>
+                        <RiDeleteBin6Line className="text-white" />
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>
+                            Are you absolutely sure you want to delete?
+                          </DialogTitle>
+                          <DialogDescription>
+                            <Button
+                              variant={"destructive"}
+                              onClick={async (e: React.BaseSyntheticEvent) => {
+                                e.preventDefault();
+                                try {
+                                  const res = await fetch(
+                                    `/api/post/post/${post._id}`,
+                                    {
+                                      method: "DELETE",
+                                    }
+                                  );
+                                  const data = await res.json();
+                                  if (data.error) {
+                                    toast.error("Error in deleting the post");
+                                  }
+                                  toast.success(data.message);
+                                } catch (erorr) {
+                                  return toast.error("error");
+                                }
+                              }}
+                            >
+                              Delete
+                            </Button>
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                )}
               </div>
             </div>
           </Link>

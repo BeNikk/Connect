@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BsThreeDots } from "react-icons/bs";
-import Logos from "./Logos";
 
 interface userpost {
   postTitle: string;
@@ -62,9 +61,7 @@ const Userpost = ({ postTitle, postImage }: userpost) => {
         </div>
       </Link>
 
-      <div className="mb-4 ml-20 ">
-        <Logos />
-      </div>
+      <div className="mb-4 ml-20 "></div>
     </div>
   );
 };
