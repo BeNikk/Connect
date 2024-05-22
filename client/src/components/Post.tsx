@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BsThreeDots } from "react-icons/bs";
 import Logos from "./Logos";
 import { useEffect, useState } from "react";
-
+import { formatDistanceToNow } from "date-fns";
 const Post = ({ post, userId }: any) => {
   const [user, setUser] = useState<any>(null);
   useEffect(() => {
@@ -102,8 +102,8 @@ const Post = ({ post, userId }: any) => {
               </div>
 
               <div className="absolute right-0 mr-2">
-                <p className="text-white">
-                  <BsThreeDots className="w-6 h-6" />
+                <p className="text-gray-400">
+                  {formatDistanceToNow(new Date(post.createdAt))} ago
                 </p>
               </div>
             </div>
