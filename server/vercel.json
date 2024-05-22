@@ -11,11 +11,6 @@
             "src": "/(.*)",
             "dest": "/dist/index.js"
         }
-    ],
-    "rewrites": [
-        {
-          "source": "/(.*)",
-          "destination": "/index.html"
-        }
-      ]
+    ]
+   
 }
