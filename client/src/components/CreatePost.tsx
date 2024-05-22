@@ -25,7 +25,10 @@ import {
 } from "@/components/ui/form";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import postAtom from "@/atoms/postAtom";
+import userAtom from "@/atoms/userAtom";
 
 const formSchema = z.object({
   text: z.optional(z.string()),
@@ -35,7 +38,9 @@ const formSchema = z.object({
 const CreatePost = () => {
   const [posting, setPosting] = useState(false);
   const postedUser = localStorage.getItem("userId") || "";
-  const navigate = useNavigate();
+  const [posts, setPost] = useRecoilState<any>(postAtom);
+  const { username } = useParams();
+  const user = useRecoilValue<any>(userAtom);
   console.log(postedUser);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,8 +71,10 @@ const CreatePost = () => {
       if (data.error) {
         return toast.error(data.error);
       }
-      toast.success(data.message);
-      navigate("/");
+      if (username == user.username) {
+        setPost([data, ...posts]);
+      }
+      toast.success("Post succesfully created");
     } catch (error) {
       return toast.error("Some error occured");
     } finally {

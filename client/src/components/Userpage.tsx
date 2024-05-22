@@ -1,14 +1,15 @@
 import UserHeader from "./Nested/UserHeader";
-import Userpost from "./Userpost";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Post from "./Post";
+import { useRecoilState } from "recoil";
+import postAtom from "@/atoms/postAtom";
 
 const Userpage = () => {
   const [user, setUser] = useState<any>(null);
   const { username } = useParams();
-  const [posts, setPost] = useState([]);
+  const [posts, setPost] = useRecoilState(postAtom);
   const [fetchingPost, setFetchingPost] = useState(false);
 
   const getUser = async () => {
@@ -87,7 +88,9 @@ const Userpage = () => {
           posts.map((post: any) => {
             return (
               <div>
-                <Post key={post._id} post={post} userId={post.postedBy} />
+                <Link to={`/${user.username}/post/${post._id}`}>
+                  <Post key={post._id} post={post} userId={post.postedBy} />
+                </Link>
               </div>
             );
           })}

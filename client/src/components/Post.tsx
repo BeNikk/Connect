@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Logos from "./Logos";
 import { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "@/atoms/userAtom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { toast } from "react-hot-toast";
+import postAtom from "@/atoms/postAtom";
 
 const Post = ({ post, userId }: any) => {
   const [user, setUser] = useState<any>(null);
   const currentUser = useRecoilValue<any>(userAtom);
+  const [posts, setPosts] = useRecoilState<any>(postAtom);
   useEffect(() => {
     async function getUser() {
       const res = await fetch(`/api/user/id/${userId}`);
@@ -47,7 +49,7 @@ const Post = ({ post, userId }: any) => {
     <div className="mx-4 relative mt-12 border-t-2  border-gray-700 ">
       {user && post && (
         <div>
-          <Link to={`${user.username}/post/${post._id}`}>
+          <Link to={`/${user.username}/post/${post._id}`}>
             <div className="flex flex-row gap-3 m-4">
               <div className="flex flex-col items-center justify-between">
                 <Link to={user.username}>
@@ -152,6 +154,11 @@ const Post = ({ post, userId }: any) => {
                                     toast.error("Error in deleting the post");
                                   }
                                   toast.success(data.message);
+                                  setPosts(
+                                    posts.filter((p: any) => {
+                                      p._id != post._id;
+                                    })
+                                  );
                                 } catch (erorr) {
                                   return toast.error("error");
                                 }

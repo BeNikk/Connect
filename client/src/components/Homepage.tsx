@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Post from "./Post";
+import { useRecoilState } from "recoil";
+import postAtom from "@/atoms/postAtom";
 
 interface PostType {
   text: string;
@@ -9,7 +11,7 @@ interface PostType {
 }
 const Homepage = () => {
   const userId = localStorage.getItem("userId") || "";
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useRecoilState<any>(postAtom);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const Homepage = () => {
       }
     }
     getPosts();
-  }, []);
+  }, [setPosts]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -42,7 +44,7 @@ const Homepage = () => {
 
   return (
     <div>
-      {posts.map((post) => (
+      {posts.map((post: any) => (
         <div>
           <Post post={post} userId={post.postedBy} />
         </div>

@@ -1,7 +1,7 @@
 import userAtom from "@/atoms/userAtom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import postAtom from "@/atoms/postAtom";
 // interface Post{
 //   postedBy:string;
 //   likes:any[];
@@ -44,11 +45,11 @@ const formSchema = z.object({
 //   post:Post[]
 // }
 
-const Logos = ({ post: post_ }: { post: any }) => {
+const Logos = ({ post }: any) => {
   const user = useRecoilValue<any>(userAtom);
-  const [liked, setLiked] = useState(post_?.likes.includes(user?._id));
+  const [liked, setLiked] = useState(post?.likes?.includes(user?._id));
   const userId = localStorage.getItem("userId") || "";
-  const [post, setPost] = useState(post_);
+  const [posts, setPost] = useRecoilState<any>(postAtom);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   async function handleLikeUnlike() {
@@ -57,7 +58,7 @@ const Logos = ({ post: post_ }: { post: any }) => {
     }
     try {
       setLoading(true);
-      const res = await fetch(`/api/post/like/${post_._id}`, {
+      const res = await fetch(`/api/post/like/${post._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -69,15 +70,24 @@ const Logos = ({ post: post_ }: { post: any }) => {
         toast.error(data.error);
       }
       if (!liked) {
-        setPost({ ...post, likes: [...post.likes, user._id] });
-      } else {
-        setPost({
-          ...post,
-          likes: post.likes.filter((id: any) => id != user._id),
+        const updatedPosts = posts.map((p: any) => {
+          if (p._id == post._id) {
+            return { ...p, likes: [...p.likes, user._id] };
+          }
+          return p;
         });
+        setPost(updatedPosts);
+      } else {
+        const updatedPosts = posts.map((p: any) => {
+          if (p._id == post._id) {
+            return { ...p, likes: p.likes.filter((id: any) => id != user._id) };
+          }
+          return p;
+        });
+        setPost(updatedPosts);
       }
+
       setLiked(!liked);
-      console.log(data);
     } catch (error) {
       return toast.error("erorr occured");
     } finally {
@@ -107,14 +117,20 @@ const Logos = ({ post: post_ }: { post: any }) => {
       if (data.error) {
         return toast.error("error posting a reply");
       }
-      toast.success(data.message);
+      const updatedPosts = posts.map((p: any) => {
+        if (p._id == post._id) {
+          return { ...p, replies: [...p.replies, data] };
+        }
+        return p;
+      });
+      setPost(updatedPosts);
+      toast.success("Reply added");
+
       navigate(`/${user.username}/post/${post._id}`);
-    } catch (error) {}
-
-    console.log(values);
+    } catch (error) {
+      toast.error("some error occured");
+    }
   }
-
-  console.log(post_);
 
   return (
     <div className="flex flex-col justify-start ">
@@ -180,11 +196,11 @@ const Logos = ({ post: post_ }: { post: any }) => {
           </div>
           <div className="flex flex-row gap-2 mt-4">
             <div className="text-gray-400 hover:underline ">
-              {post.replies.length} replies
+              {post?.replies?.length} replies
             </div>
 
             <div className="text-gray-400 hover:underline">
-              {post.likes.length} likes
+              {post?.likes?.length} likes
             </div>
           </div>
         </div>
