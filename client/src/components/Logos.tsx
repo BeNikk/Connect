@@ -19,7 +19,7 @@ const Logos = ({ post }: any) => {
               <img
                 src={`${liked ? "/heart-filled.svg" : "/heart-gray.svg"}`}
                 alt=""
-                className={` w-8 h-8`}
+                className={`cursor-pointer w-8 h-8`}
                 onClick={() => {
                   if (!liked) setCountLikes(countLikes + 1);
                   else {

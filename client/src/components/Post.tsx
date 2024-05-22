@@ -30,40 +30,63 @@ const Post = ({ post, userId }: any) => {
   }
   return (
     <div className="mx-4 relative mt-12 border-t-2  border-gray-700 ">
-      {post && (
+      {user && post && (
         <div>
-          <Link to={"/markzuckerberg/post/1"}>
+          <Link to={`${user.username}/post/${post._id}`}>
             <div className="flex flex-row gap-3 m-4">
-              <div className="flex flex-col items-center  justify-between">
-                <Avatar className="w-12 h-12">
-                  <AvatarImage src={imageSource} />
-                  <AvatarFallback className="text-white">MZ</AvatarFallback>
-                </Avatar>
+              <div className="flex flex-col items-center justify-between">
+                <Link to={user.username}>
+                  <Avatar className="w-12 h-12">
+                    <AvatarImage src={imageSource} />
+                    <AvatarFallback className="text-white">MZ</AvatarFallback>
+                  </Avatar>
+                </Link>
+                <div className=" border-l-2 ml-6 border-gray-700 ">line</div>
+
                 <div>
                   <div className="flex flex-row items-center">
-                    <Avatar className="w-8 h-8 -ml-1">
-                      <AvatarImage src="/avatar1.jpg" />
-                      <AvatarFallback className="text-white">MZ</AvatarFallback>
-                    </Avatar>
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage src="/avatar2.jpg" />
-                      <AvatarFallback className="text-white">MZ</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div>
-                    <Avatar className="w-8 h-8 ml-4">
-                      <AvatarImage src="/avatar3.jpg" />
-                      <AvatarFallback className="text-white">MZ</AvatarFallback>
-                    </Avatar>
+                    <div>
+                      {post.replies.length == 0 && (
+                        <div>
+                          <p className="text-2xl">🥱</p>
+                        </div>
+                      )}
+                    </div>
+                    {post.replies[0] && (
+                      <Avatar className="w-8 h-8 -ml-1">
+                        <AvatarImage src={post.replies[0].userProfilePic} />
+                        <AvatarFallback className="text-white">
+                          MZ
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
+                    {post.replies[1] && (
+                      <Avatar className="w-8 h-8 -ml-1">
+                        <AvatarImage src={post.replies[1].userProfilePic} />
+                        <AvatarFallback className="text-white">
+                          MZ
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
+                    {post.replies[2] && (
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={post.replies[2].userProfilePic} />
+                        <AvatarFallback className="text-white">
+                          MZ
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
                   </div>
                 </div>
               </div>
               <div className="flex flex-col justify-between gap-4">
                 <div className=" flex flex-row gap-2 font-bold text-md lg:text-lg">
                   {user && (
-                    <p className="text-white font-bold text-md lg:text-lg">
-                      {user.username}
-                    </p>
+                    <Link to={user.username}>
+                      <p className="text-white font-bold text-md lg:text-lg cursor-pointer hover:underline">
+                        {user.username}
+                      </p>
+                    </Link>
                   )}
 
                   <img src="/verified.png" alt="" className="w-4 h-4 mt-2" />

@@ -9,8 +9,8 @@ import { toast } from "react-hot-toast";
 
 const UserHeader = ({ user }: any) => {
   const currentUser = useRecoilValue<any>(userAtom);
-  console.log(currentUser);
   const userHeader = localStorage.getItem("userId") || "";
+
   const [following, setFollowing] = useState(
     user.followers.includes(currentUser._id)
   );
