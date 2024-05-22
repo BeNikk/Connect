@@ -14,7 +14,7 @@ export default async function GetFeedPosts(req:Request,res:Response){
             }
             const following =user.following;
            
-            const feedposts=await Post.find({postedBy:{$in:following}}).sort({createdAt:-1});
+            const feedposts=await Post.find({}).sort({createdAt:-1});
             if(feedposts){
 
                 return res.json(feedposts);
