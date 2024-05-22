@@ -11,8 +11,8 @@ const postRouter=express.Router();
 postRouter.post('/create',middleware,CreatePost);
 postRouter.get('/post/:id',Getposts);
 postRouter.delete('/post/:id',middleware,DeletePosts);
-postRouter.post('/like/:id',middleware,LikeUnlikePosts);
-postRouter.post('/reply/:id',middleware,ReplyToPosts);
+postRouter.put('/like/:id',middleware,LikeUnlikePosts);
+postRouter.put('/reply/:id',middleware,ReplyToPosts);
 postRouter.get('/feed',middleware,GetFeedPosts);
 export default postRouter;
 
