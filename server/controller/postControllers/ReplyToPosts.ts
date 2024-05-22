@@ -29,7 +29,7 @@ export default async function ReplyToPosts(req:Request,res:Response){
             post.replies.push(reply);
            
             await post.save();
-            return res.json({message:"comment successfully added",post});
+            return res.json(reply);
             
         }
 

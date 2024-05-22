@@ -36,7 +36,7 @@ export default async function CreatePost(req:Request,res:Response){
                 
                 const newPost=new Post({text,image,postedBy});
                 await newPost.save();
-                return res.json({message:"new post successfulyl created"});
+                return res.json(newPost);
             }
 
 

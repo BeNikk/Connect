@@ -10,7 +10,7 @@ export default async function Getposts(req:Request,res:Response){
 
         }
         else{
-            return res.status(200).json({post});
+            return res.status(200).json(post);
 
         }
 
