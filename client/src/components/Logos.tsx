@@ -2,14 +2,45 @@ import userAtom from "@/atoms/userAtom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
+("use client");
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { read } from "fs";
+import { useNavigate } from "react-router-dom";
 // interface Post{
 //   postedBy:string;
 //   likes:any[];
 //   replies:any[];
 //   text:string;
 //   image:string;
-
+const formSchema = z.object({
+  text: z.string().min(1, {
+    message: "reply must be at least 1 characters.",
+  }),
+});
 // }
 // interface post{
 //   post:Post[]
@@ -17,10 +48,11 @@ import { useRecoilValue } from "recoil";
 
 const Logos = ({ post: post_ }: { post: any }) => {
   const user = useRecoilValue<any>(userAtom);
-  const [liked, setLiked] = useState(post_.likes.includes(user?._id));
+  const [liked, setLiked] = useState(post_?.likes.includes(user?._id));
   const userId = localStorage.getItem("userId") || "";
   const [post, setPost] = useState(post_);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   async function handleLikeUnlike() {
     if (!user) {
       toast.error("Login required");
@@ -54,6 +86,35 @@ const Logos = ({ post: post_ }: { post: any }) => {
       setLoading(false);
     }
   }
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      text: "",
+    },
+  });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!user) {
+      return toast.error("login to reply");
+    }
+    try {
+      const res = await fetch(`/api/post/reply/${post._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          userId: userId,
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json();
+      if (data.error) {
+        return toast.error("error posting a reply");
+      }
+      toast.success(data.message);
+      navigate(`/${user.username}/post/${post._id}`);
+    } catch (error) {}
+
+    console.log(values);
+  }
 
   console.log(post_);
 
@@ -73,7 +134,44 @@ const Logos = ({ post: post_ }: { post: any }) => {
               </button>
             </div>
             <div>
-              <img src="/reply.svg" alt="" className="w-8 h-8" />
+              <Dialog>
+                <DialogTrigger>
+                  {" "}
+                  <img src="/reply.svg" alt="" className="w-8 h-8" />
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Reply to post</DialogTitle>
+                    <DialogDescription>
+                      <Form {...form}>
+                        <form
+                          onSubmit={form.handleSubmit(onSubmit)}
+                          className="space-y-8"
+                        >
+                          <FormLabel></FormLabel>
+                          <FormField
+                            control={form.control}
+                            name="text"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    placeholder="reply goes here"
+                                    {...field}
+                                  />
+                                </FormControl>
+
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <Button type="submit">Reply</Button>
+                        </form>
+                      </Form>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
             <div>
               <img src="/repost.svg" alt="" className="w-8 h-8" />
