@@ -62,7 +62,7 @@ const Post = ({ post, userId }: any) => {
                     <AvatarFallback className="text-white">MZ</AvatarFallback>
                   </Avatar>
                 </Link>
-                <div className=" border-l-2 ml-2 border-gray-700 ">line</div>
+                <div className="border-l-2 ml-2 border-gray-700 ">line</div>
 
                 <div>
                   <div className="flex flex-row items-center">
@@ -101,7 +101,7 @@ const Post = ({ post, userId }: any) => {
                 </div>
               </div>
               <div className="flex flex-col justify-between gap-4">
-                <div className=" flex flex-row gap-2 font-bold text-md lg:text-lg">
+                <div className=" flex flex-row items-center justify-start gap-2 font-bold text-md lg:text-lg">
                   {user && (
                     <Link to={user.username}>
                       <p className="text-white font-bold text-md lg:text-lg cursor-pointer hover:underline">
