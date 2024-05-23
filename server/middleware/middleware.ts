@@ -6,6 +6,7 @@ dotenv.config();
 const secret=process.env.JWT_SECRET || "";
 const middleware = async(req:Request,res:Response,next:NextFunction) => {
   try{
+    console.log("middleware");
     const token=req.cookies.token;
     if(token){
         const verified= jwt.verify(token,secret);
