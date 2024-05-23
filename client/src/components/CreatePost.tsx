@@ -81,6 +81,7 @@ const CreatePost = () => {
       }
       toast.success("Post succesfully created");
       navigate("/");
+      window.location.reload();
     } catch (error) {
       return toast.error("Some error occured");
     } finally {
