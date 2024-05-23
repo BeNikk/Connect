@@ -60,6 +60,7 @@ const Logos = ({ post }: any) => {
       return toast.error("unauthorized to like");
     }
     try {
+      console.log("here inside logos");
       setLoading(true);
       const res = await fetch(
         `https://maitconnect.onrender.com/api/post/like/${post._id}`,
