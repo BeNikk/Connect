@@ -215,6 +215,7 @@ const Postpage = () => {
                       headers: {
                         "Content-Type": "application/json",
                         userId: userId,
+                        token: token,
                       },
                       body: JSON.stringify(values),
                     }
