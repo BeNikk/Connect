@@ -26,6 +26,7 @@ cloudinary_1.v2.config({
     api_secret: apiSecret
 });
 function UserUpdate(req, res) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, username, email, password, bio } = req.body;
@@ -46,15 +47,14 @@ function UserUpdate(req, res) {
                     user.password = hashedPassword;
                 }
                 if (profilePicture) {
-                    if (user.profilePicture) {
-                        let img = user.profilePicture.split("/").pop();
-                        if (img) {
-                            yield cloudinary_1.v2.uploader.destroy(img.split(".")[0]);
-                        }
+                    const imgMod = profilePicture.split("/");
+                    const imageId = (_a = imgMod.pop()) === null || _a === void 0 ? void 0 : _a.split(".")[0];
+                    if (imageId) {
+                        yield cloudinary_1.v2.uploader.destroy(imageId);
                     }
-                    const uploadResponse = yield cloudinary_1.v2.uploader.upload(profilePicture);
-                    profilePicture = uploadResponse.secure_url;
                 }
+                const uploadResponse = yield cloudinary_1.v2.uploader.upload(profilePicture);
+                profilePicture = uploadResponse.secure_url;
                 if (user) {
                     user.name = name || user.name;
                     user.email = email || user.email;

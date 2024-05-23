@@ -9,6 +9,9 @@ export default async function Follow(req:Request,res:Response){
             if(!userToModify){
                 return res.json({error:"No such user"});
             }
+            if(!id){
+                return res.json({error:"unauthorized"});
+            }
 
 
             const currentUserInfo=JSON.parse(req.headers["userId"]);
@@ -23,13 +26,16 @@ export default async function Follow(req:Request,res:Response){
             else{
 
                 if(currentUser && userToModify){
-                    const alreadyFollowing=currentUser.following.includes(id);
-                    if(alreadyFollowing){
-                        //unfollow
-                        await User.findByIdAndUpdate(currentUserInfo._id,{ $pull:{following:id}});
-                        await User.findByIdAndUpdate(userToModify._id,{$pull:{followers:currentUserInfo._id}});
+                    if(id){
 
-                        return res.json({message:"user successfully unfollowed"});
+                        const alreadyFollowing=currentUser.following.includes(id);
+                        if(alreadyFollowing){
+                            //unfollow
+                            await User.findByIdAndUpdate(currentUserInfo._id,{ $pull:{following:id}});
+                            await User.findByIdAndUpdate(userToModify._id,{$pull:{followers:currentUserInfo._id}});
+    
+                            return res.json({message:"user successfully unfollowed"});
+                    }
                     }
                     else{
                         await User.findByIdAndUpdate(currentUserInfo._id,{$push:{following:userToModify._id}});

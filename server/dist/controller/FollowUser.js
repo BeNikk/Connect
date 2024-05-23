@@ -20,8 +20,11 @@ function Follow(req, res) {
             if (req.headers["userId"] && !Array.isArray(req.headers["userId"])) {
                 //console.log(req.headers["userId"]);
                 const userToModify = yield userModel_1.default.findById(id);
-                if (!user) {
+                if (!userToModify) {
                     return res.json({ error: "No such user" });
+                }
+                if (!id) {
+                    return res.json({ error: "unauthorized" });
                 }
                 const currentUserInfo = JSON.parse(req.headers["userId"]);
                 const currentUser = yield userModel_1.default.findById(currentUserInfo._id);
@@ -30,12 +33,14 @@ function Follow(req, res) {
                 }
                 else {
                     if (currentUser && userToModify) {
-                        const alreadyFollowing = currentUser.following.includes(id);
-                        if (alreadyFollowing) {
-                            //unfollow
-                            yield userModel_1.default.findByIdAndUpdate(currentUserInfo._id, { $pull: { following: id } });
-                            yield userModel_1.default.findByIdAndUpdate(userToModify._id, { $pull: { followers: currentUserInfo._id } });
-                            return res.json({ message: "user successfully unfollowed" });
+                        if (id) {
+                            const alreadyFollowing = currentUser.following.includes(id);
+                            if (alreadyFollowing) {
+                                //unfollow
+                                yield userModel_1.default.findByIdAndUpdate(currentUserInfo._id, { $pull: { following: id } });
+                                yield userModel_1.default.findByIdAndUpdate(userToModify._id, { $pull: { followers: currentUserInfo._id } });
+                                return res.json({ message: "user successfully unfollowed" });
+                            }
                         }
                         else {
                             yield userModel_1.default.findByIdAndUpdate(currentUserInfo._id, { $push: { following: userToModify._id } });
