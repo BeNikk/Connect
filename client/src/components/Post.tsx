@@ -110,7 +110,7 @@ const Post = ({ post, userId }: any) => {
                     </Link>
                   )}
 
-                  <img src="/verified.png" alt="" className="w-4 h-4 mt-2" />
+                  <img src="/verified.png" alt="" className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-white">{post.text}</p>
