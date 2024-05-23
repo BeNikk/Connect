@@ -51,7 +51,7 @@ const Homepage = () => {
   return (
     <div>
       hello
-      {/* {posts &&
+      {posts &&
         posts.map((post: any) => (
           <div>
             <Post post={post} userId={post.postedBy} />
@@ -59,7 +59,7 @@ const Homepage = () => {
         ))}
       {posts && posts.length == 0 && (
         <div className="text-white">Follow users to get some posts</div>
-      )} */}
+      )}
     </div>
   );
 };
