@@ -22,7 +22,7 @@ const UserHeader = ({ user }: any) => {
     try {
       setUpdating(true);
       const res = await fetch(
-        `https://maitconnect.onrender.com/api/user/follow/${user._id}`,
+        `https://maitconnect-1.onrender.com/api/user/follow/${user._id}`,
         {
           method: "POST",
           headers: {

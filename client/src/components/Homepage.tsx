@@ -17,7 +17,7 @@ const Homepage = () => {
     async function getPosts() {
       try {
         const res = await fetch(
-          `https://maitconnect.onrender.com/api/post/feed`,
+          `https://maitconnect-1.onrender.com/api/post/feed`,
           {
             method: "GET",
             headers: {

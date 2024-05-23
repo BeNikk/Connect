@@ -15,7 +15,7 @@ const Userpage = () => {
   const getUser = async () => {
     try {
       const res = await fetch(
-        `https://maitconnect.onrender.com/api/user/${username}`
+        `https://maitconnect-1.onrender.com/api/user/${username}`
       );
       const data = await res.json();
 
@@ -32,7 +32,7 @@ const Userpage = () => {
     try {
       setFetchingPost(true);
       const res = await fetch(
-        `https://maitconnect.onrender.com/api/post/userpost/${username}`
+        `https://maitconnect-1.onrender.com/api/post/userpost/${username}`
       );
       const data = await res.json();
       if (data.error) {

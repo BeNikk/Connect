@@ -35,7 +35,7 @@ const LoginPage = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const res = await fetch(
-        "https://maitconnect.onrender.com/api/user/login",
+        "https://maitconnect-1.onrender.com/api/user/login",
         {
           method: "POST",
           headers: {

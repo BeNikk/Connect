@@ -64,7 +64,7 @@ const Logos = ({ post }: any) => {
       console.log("here inside logos");
       setLoading(true);
       const res = await fetch(
-        `https://maitconnect.onrender.com/api/post/like/${post._id}`,
+        `https://maitconnect-1.onrender.com/api/post/like/${post._id}`,
         {
           method: "PUT",
           headers: {
@@ -118,7 +118,7 @@ const Logos = ({ post }: any) => {
     }
     try {
       const res = await fetch(
-        `https://maitconnect.onrender.com/api/post/reply/${post._id}`,
+        `https://maitconnect-1.onrender.com/api/post/reply/${post._id}`,
         {
           method: "PUT",
           headers: {

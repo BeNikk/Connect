@@ -61,7 +61,7 @@ const CreatePost = () => {
       };
       console.log(dataToPost);
       const res = await fetch(
-        `https://maitconnect.onrender.com/api/post/create`,
+        `https://maitconnect-1.onrender.com/api/post/create`,
         {
           method: "POST",
           headers: {

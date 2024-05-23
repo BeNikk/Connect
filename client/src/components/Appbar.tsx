@@ -14,7 +14,7 @@ const Appbar = () => {
   async function handleLogout() {
     try {
       const res = await fetch(
-        "https://maitconnect.onrender.com/api/user/logout",
+        "https://maitconnect-1.onrender.com/api/user/logout",
         {
           method: "POST",
           headers: {
