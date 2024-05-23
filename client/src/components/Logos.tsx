@@ -48,13 +48,16 @@ const formSchema = z.object({
 const Logos = ({ post }: any) => {
   const user = useRecoilValue<any>(userAtom);
   const [liked, setLiked] = useState(post?.likes?.includes(user?._id));
-  const userId = localStorage.getItem("userId") || "";
+  const userId = localStorage.getItem("userId");
   const [posts, setPost] = useRecoilState<any>(postAtom);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   async function handleLikeUnlike() {
     if (!user) {
-      toast.error("Login required");
+      return toast.error("Login required");
+    }
+    if (!userId) {
+      return toast.error("unauthorized to like");
     }
     try {
       setLoading(true);
@@ -106,6 +109,9 @@ const Logos = ({ post }: any) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!user) {
       return toast.error("login to reply");
+    }
+    if (!userId) {
+      return toast.error("unauthorized to comment");
     }
     try {
       const res = await fetch(

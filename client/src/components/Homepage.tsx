@@ -10,7 +10,6 @@ import postAtom from "@/atoms/postAtom";
 //   postedBy: string;
 // }
 const Homepage = () => {
-  const userId = localStorage.getItem("userId") || "";
   const [posts, setPosts] = useRecoilState<any>(postAtom);
   const [loading, setLoading] = useState(true);
 
@@ -23,7 +22,6 @@ const Homepage = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              userId: userId,
             },
           }
         );
@@ -40,21 +38,28 @@ const Homepage = () => {
     }
     getPosts();
   }, [setPosts]);
+  console.log("hey i am posts");
+  console.log(posts);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+  if (!posts) {
+    return null;
+  }
 
   return (
     <div>
-      {posts.map((post: any) => (
-        <div>
-          <Post post={post} userId={post.postedBy} />
-        </div>
-      ))}
-      {posts.length === 0 && (
+      hello
+      {/* {posts &&
+        posts.map((post: any) => (
+          <div>
+            <Post post={post} userId={post.postedBy} />
+          </div>
+        ))}
+      {posts && posts.length == 0 && (
         <div className="text-white">Follow users to get some posts</div>
-      )}
+      )} */}
     </div>
   );
 };
