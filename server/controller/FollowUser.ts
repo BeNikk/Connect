@@ -6,6 +6,9 @@ export default async function Follow(req:Request,res:Response){
         if(req.headers["userId"] && !Array.isArray(req.headers["userId"])){
             //console.log(req.headers["userId"]);
             const userToModify=await User.findById(id);
+            if(!user){
+                return res.json({error:"No such user"});
+            }
 
 
             const currentUserInfo=JSON.parse(req.headers["userId"]);
