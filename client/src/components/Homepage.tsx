@@ -4,11 +4,11 @@ import Post from "./Post";
 import { useRecoilState } from "recoil";
 import postAtom from "@/atoms/postAtom";
 
-interface PostType {
-  text: string;
-  image: string;
-  postedBy: string;
-}
+// interface PostType {
+//   text: string;
+//   image: string;
+//   postedBy: string;
+// }
 const Homepage = () => {
   const userId = localStorage.getItem("userId") || "";
   const [posts, setPosts] = useRecoilState<any>(postAtom);

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/form";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import postAtom from "@/atoms/postAtom";
 import userAtom from "@/atoms/userAtom";
