@@ -19,29 +19,37 @@ dotenv_1.default.config();
 const secret = process.env.JWT_SECRET || "";
 const middleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const token = req.cookies.token;
-        if (token) {
-            const verified = jsonwebtoken_1.default.verify(token, secret);
-            const user = yield userModel_1.default.findOne({ username: verified });
-            // console.log(verified);
-            if (!user) {
-                return res.status(403);
-            }
-            if (typeof user === "string") {
-                return res.status(403);
-            }
-            else {
+        console.log("middleware");
+        const token = req.headers.token;
+        console.log(token);
+        if (token && typeof token === "string") {
+            console.log("here");
+            try {
+                const verified = jsonwebtoken_1.default.verify(token, secret);
+                console.log(verified);
+                const user = yield userModel_1.default.findOne({ username: verified });
+                console.log(user);
+                if (!user) {
+                    return res.status(403).send("Forbidden");
+                }
+                if (typeof user === "string") {
+                    return res.status(403).send("Forbidden");
+                }
                 req.headers["userId"] = JSON.stringify(user);
                 next();
             }
+            catch (error) {
+                console.error("JWT verification failed:", error);
+                return res.status(403).send("Forbidden");
+            }
         }
         else {
-            return res.json({ error: `Unauthorized` });
+            return res.status(401).json({ error: "Unauthorized" });
         }
     }
     catch (e) {
-        console.log(`error occured`);
-        return res.json({ error: e });
+        console.error("Error occurred:", e);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 });
 exports.default = middleware;
