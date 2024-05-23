@@ -13,7 +13,9 @@ const Comments = ({ userId, avatar, comment }: any) => {
 
   const getUser = async () => {
     try {
-      const res = await fetch(`/api/user/id/${userId}`);
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/user/id/${userId}`
+      );
       const data = await res.json();
       if (data.erorr) {
         return toast.error(data.error);

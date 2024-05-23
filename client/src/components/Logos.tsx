@@ -63,14 +63,17 @@ const Logos = ({ post }: any) => {
     try {
       console.log("here inside logos");
       setLoading(true);
-      const res = await fetch(`/api/post/like/${post._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          userId: userId,
-          token: token,
-        },
-      });
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/post/like/${post._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            userId: userId,
+            token: token,
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);
@@ -114,15 +117,18 @@ const Logos = ({ post }: any) => {
       return toast.error("unauthorized to comment");
     }
     try {
-      const res = await fetch(`/api/post/reply/${post._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          userId: userId,
-          token: token,
-        },
-        body: JSON.stringify(values),
-      });
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/post/reply/${post._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            userId: userId,
+            token: token,
+          },
+          body: JSON.stringify(values),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         return toast.error("error posting a reply");

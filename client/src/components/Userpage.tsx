@@ -29,7 +29,9 @@ const Userpage = () => {
   const getPosts = async () => {
     try {
       setFetchingPost(true);
-      const res = await fetch(`/api/post/userpost/${username}`);
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/post/userpost/${username}`
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);

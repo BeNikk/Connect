@@ -13,12 +13,15 @@ const Appbar = () => {
 
   async function handleLogout() {
     try {
-      const res = await fetch("/api/user/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://maitconnect.onrender.com/api/user/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);

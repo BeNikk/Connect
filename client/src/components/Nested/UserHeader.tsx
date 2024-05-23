@@ -21,14 +21,17 @@ const UserHeader = ({ user }: any) => {
   const handleFollow = async () => {
     try {
       setUpdating(true);
-      const res = await fetch(`/api/user/follow/${user._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          userId: userHeader,
-          token: token,
-        },
-      });
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/user/follow/${user._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            userId: userHeader,
+            token: token,
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);
