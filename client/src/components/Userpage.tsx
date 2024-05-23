@@ -14,7 +14,9 @@ const Userpage = () => {
 
   const getUser = async () => {
     try {
-      const res = await fetch(`/api/user/${username}`);
+      const res = await fetch(
+        `https://maitconnect.onrender.com//api/user/${username}`
+      );
       const data = await res.json();
 
       if (data.error) {
