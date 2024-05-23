@@ -18,6 +18,6 @@ postRouter.get('/post/:id', Getposts_1.default);
 postRouter.delete('/post/:id', middleware_1.default, DeletePost_1.default);
 postRouter.put('/like/:id', middleware_1.default, LikeUnlikePosts_1.default);
 postRouter.put('/reply/:id', middleware_1.default, ReplyToPosts_1.default);
-postRouter.get('/feed', middleware_1.default, GetFeedPosts_1.default);
+postRouter.get('/feed', GetFeedPosts_1.default);
 postRouter.get('/userpost/:username', getPostbyUsername_1.default);
 exports.default = postRouter;

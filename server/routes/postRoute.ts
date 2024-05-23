@@ -14,7 +14,7 @@ postRouter.get('/post/:id',Getposts);
 postRouter.delete('/post/:id',middleware,DeletePosts);
 postRouter.put('/like/:id',middleware,LikeUnlikePosts);
 postRouter.put('/reply/:id',middleware,ReplyToPosts);
-postRouter.get('/feed',middleware,GetFeedPosts);
+postRouter.get('/feed',GetFeedPosts);
 postRouter.get('/userpost/:username',getPostbyUsername);
 export default postRouter;
 

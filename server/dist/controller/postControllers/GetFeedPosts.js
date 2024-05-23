@@ -12,26 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const userModel_1 = __importDefault(require("../../models/userModel"));
 const postModel_1 = __importDefault(require("../../models/postModel"));
 function GetFeedPosts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            if (req.headers["userId"] && !Array.isArray(req.headers["userId"])) {
-                const userHeader = JSON.parse(req.headers["userId"]);
-                const user = yield userModel_1.default.findById(userHeader._id);
-                if (!user) {
-                    return res.json({ message: "unauthorized" });
-                }
-                const following = user.following;
-                const feedposts = yield postModel_1.default.find({}).sort({ createdAt: -1 });
-                if (feedposts) {
-                    return res.json(feedposts);
-                }
-                else {
-                    return res.json([{ message: "Follow some users" }]);
-                }
-            }
+            const feedposts = yield postModel_1.default.find({}).sort({ createdAt: -1 });
+            return res.json(feedposts);
         }
         catch (e) {
             return res.json({ message: "error in getting the feed" });

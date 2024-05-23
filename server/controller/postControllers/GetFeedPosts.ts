@@ -5,27 +5,16 @@ import Post from "../../models/postModel";
 export default async function GetFeedPosts(req:Request,res:Response){
     try{
               
-        if(req.headers["userId"] && !Array.isArray(req.headers["userId"])){
-            const userHeader=JSON.parse(req.headers["userId"]);
-            const user=await User.findById(userHeader._id);
-            if(!user){
-                return res.json({message:"unauthorized"});
-
-            }
-            const following =user.following;
+        
            
             const feedposts=await Post.find({}).sort({createdAt:-1});
-            if(feedposts){
 
                 return res.json(feedposts);
-            }
-            else{
-                return res.json([{message:"Follow some users"}])
-            }
+           
 
         }
 
-    }
+    
     catch(e){
         return res.json({message:"error in getting the feed"});
     }
