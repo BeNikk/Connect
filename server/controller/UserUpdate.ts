@@ -41,16 +41,16 @@ export default async function UserUpdate(req:Request,res:Response){
 
             }
             if(profilePicture){
-                if(user.profilePicture){
-                    let img=user.profilePicture.split("/").pop()
-                    if(img){
-
-                        await cloudinary.uploader.destroy(img.split(".")[0]);
-                    }
+                const imgMod=profilePicture.split("/");
+                const imageId=imgMod.pop()?.split(".")[0];
+                if(imageId){
+   
+                    await cloudinary.uploader.destroy(imageId);
+                }
                 }
                 const uploadResponse=await cloudinary.uploader.upload(profilePicture);
                 profilePicture=uploadResponse.secure_url;
-            }
+            
             if(user){
 
                 user.name=name || user.name;
