@@ -14,7 +14,7 @@ export default defineConfig({
     //cors error resolved
     proxy:{
       "/api":{
-        target:"http://localhost:3000",
+        target:"https://maitconnect.onrender.com/",
         changeOrigin:true,
         secure:false
       }
