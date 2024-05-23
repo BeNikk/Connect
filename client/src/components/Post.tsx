@@ -81,22 +81,6 @@ const Post = ({ post, userId }: any) => {
                         </AvatarFallback>
                       </Avatar>
                     )}
-                    {post.replies[1] && (
-                      <Avatar className="w-8 h-8 -ml-1">
-                        <AvatarImage src={post.replies[1].userProfilePic} />
-                        <AvatarFallback className="text-white">
-                          MZ
-                        </AvatarFallback>
-                      </Avatar>
-                    )}
-                    {post.replies[2] && (
-                      <Avatar className="w-8 h-8">
-                        <AvatarImage src={post.replies[2].userProfilePic} />
-                        <AvatarFallback className="text-white">
-                          MZ
-                        </AvatarFallback>
-                      </Avatar>
-                    )}
                   </div>
                 </div>
               </div>
