@@ -35,6 +35,7 @@ const Postpage = () => {
 
   const getPosts = async () => {
     try {
+      setLoading(true);
       const res = await fetch(`/api/post/post/${postId}`);
       const data = await res.json();
       if (data.error) {
@@ -43,6 +44,8 @@ const Postpage = () => {
       setPost([data]);
     } catch (error) {
       toast.error("error");
+    } finally {
+      setLoading(false);
     }
   };
   const getUser = async () => {

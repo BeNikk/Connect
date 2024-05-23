@@ -4,16 +4,14 @@ import Userpage from "./components/Userpage";
 import Postpage from "./components/Postpage";
 import Appbar from "./components/Appbar";
 import Authpage from "./components/Authpage";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
 import Homepage from "./components/Homepage";
 import UserUpdate from "./components/UserUpdate";
 import CreatePost from "./components/CreatePost";
-import { Button } from "./components/ui/button";
 
 const App = () => {
   const user = useRecoilValue(userAtom);
-  const setUser = useSetRecoilState(userAtom);
 
   return (
     <div className="mx-auto max-w-[700px]">
