@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/form";
 import { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import postAtom from "@/atoms/postAtom";
 import userAtom from "@/atoms/userAtom";
@@ -40,6 +40,7 @@ const CreatePost = () => {
   const postedUser = localStorage.getItem("userId") || "";
   const [posts, setPost] = useRecoilState<any>(postAtom);
   const { username } = useParams();
+  const navigate = useNavigate();
   const user = useRecoilValue<any>(userAtom);
   console.log(postedUser);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,7 +50,6 @@ const CreatePost = () => {
     },
   });
   const token = localStorage.getItem("token") || "";
-
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -80,6 +80,7 @@ const CreatePost = () => {
         setPost([data, ...posts]);
       }
       toast.success("Post succesfully created");
+      navigate("/");
     } catch (error) {
       return toast.error("Some error occured");
     } finally {
