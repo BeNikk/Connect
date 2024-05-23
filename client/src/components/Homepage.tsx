@@ -17,13 +17,16 @@ const Homepage = () => {
   useEffect(() => {
     async function getPosts() {
       try {
-        const res = await fetch(`/api/post/feed`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            userId: userId,
-          },
-        });
+        const res = await fetch(
+          `https://maitconnect.onrender.com/api/post/feed`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              userId: userId,
+            },
+          }
+        );
         const data = await res.json();
         setPosts(data);
         setLoading(false);

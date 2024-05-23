@@ -58,13 +58,16 @@ const Logos = ({ post }: any) => {
     }
     try {
       setLoading(true);
-      const res = await fetch(`/api/post/like/${post._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          userId: userId,
-        },
-      });
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/post/like/${post._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            userId: userId,
+          },
+        }
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);
@@ -105,14 +108,17 @@ const Logos = ({ post }: any) => {
       return toast.error("login to reply");
     }
     try {
-      const res = await fetch(`/api/post/reply/${post._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          userId: userId,
-        },
-        body: JSON.stringify(values),
-      });
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/post/reply/${post._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            userId: userId,
+          },
+          body: JSON.stringify(values),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         return toast.error("error posting a reply");

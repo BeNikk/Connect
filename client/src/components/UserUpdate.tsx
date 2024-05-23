@@ -77,14 +77,17 @@ const UserUpdate = () => {
         email: values.email,
       };
 
-      const res = await fetch(`/api/user/update/${user._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          userId: userHeader,
-        },
-        body: JSON.stringify(updateData),
-      });
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/user/update/${user._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            userId: userHeader,
+          },
+          body: JSON.stringify(updateData),
+        }
+      );
       const data = await res.json();
       if (data.error) {
         return toast.error("Error updating the profile");

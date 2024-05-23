@@ -24,7 +24,9 @@ const Post = ({ post, userId }: any) => {
   const [posts, setPosts] = useRecoilState<any>(postAtom);
   useEffect(() => {
     async function getUser() {
-      const res = await fetch(`/api/user/id/${userId}`);
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/user/id/${userId}`
+      );
       const data = await res.json();
       setUser(data);
     }
@@ -144,7 +146,7 @@ const Post = ({ post, userId }: any) => {
                                 e.preventDefault();
                                 try {
                                   const res = await fetch(
-                                    `/api/post/post/${post._id}`,
+                                    `https://maitconnect.onrender.com/api/post/post/${post._id}`,
                                     {
                                       method: "DELETE",
                                     }

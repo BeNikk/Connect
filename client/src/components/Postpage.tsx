@@ -36,7 +36,9 @@ const Postpage = () => {
   const getPosts = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/post/post/${postId}`);
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/post/post/${postId}`
+      );
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);
@@ -50,7 +52,9 @@ const Postpage = () => {
   };
   const getUser = async () => {
     try {
-      const res = await fetch(`/api/user/${username}`);
+      const res = await fetch(
+        `https://maitconnect.onrender.com/api/user/${username}`
+      );
       const data = await res.json();
 
       if (data.error) {
@@ -134,7 +138,7 @@ const Postpage = () => {
                                 onClick={async () => {
                                   try {
                                     const res = await fetch(
-                                      `/api/post/post/${currentPost._id}`,
+                                      `https://maitconnect.onrender.com/api/post/post/${currentPost._id}`,
                                       {
                                         method: "DELETE",
                                       }
@@ -199,7 +203,7 @@ const Postpage = () => {
                     text: text,
                   };
                   const res = await fetch(
-                    `/api/post/reply/${currentPost._id}`,
+                    `https://maitconnect.onrender.com/api/post/reply/${currentPost._id}`,
                     {
                       method: "PUT",
                       headers: {
