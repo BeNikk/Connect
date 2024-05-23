@@ -23,7 +23,7 @@ export default async function Login(req:Request,res:Response){
 
             const isPasswordCorrect=await bcrypt.compare(password,user.password);
             if(isPasswordCorrect){
-                generateToken(username,res);
+                const token=generateToken(username,res);
                 res.json({
                     _id:user._id,
                     username:user.username,
@@ -32,7 +32,8 @@ export default async function Login(req:Request,res:Response){
                     password:user.password,
                     bio:user.bio,
                     profilePicture:user.profilePicture,
-                    message:"Logged in successfully"
+                    message:"Logged in successfully",
+                    token:token
 
                 });
 
