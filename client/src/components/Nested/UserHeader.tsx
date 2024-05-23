@@ -10,8 +10,7 @@ import { toast } from "react-hot-toast";
 const UserHeader = ({ user }: any) => {
   const currentUser = useRecoilValue<any>(userAtom);
   const userHeader = localStorage.getItem("userId") || "";
-  console.log("hey i am user");
-  console.log(user);
+  const token = localStorage.getItem("token") || "";
   // console.log("i am current user");
   // console.log(currentUser);
 
@@ -22,16 +21,14 @@ const UserHeader = ({ user }: any) => {
   const handleFollow = async () => {
     try {
       setUpdating(true);
-      const res = await fetch(
-        `https://maitconnect.onrender.com/api/user/follow/${user._id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            userId: userHeader,
-          },
-        }
-      );
+      const res = await fetch(`/api/user/follow/${user._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          userId: userHeader,
+          token: token,
+        },
+      });
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);

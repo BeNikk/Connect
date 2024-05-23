@@ -48,28 +48,27 @@ const CreatePost = () => {
       text: "",
     },
   });
+  const token = localStorage.getItem("token") || "";
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setPosting(true);
-      const dataToPost = {
+      const dataToPost: any = {
         text: values.text,
         image: imageUrl,
         postedBy: JSON.parse(postedUser),
       };
       console.log(dataToPost);
-      const res = await fetch(
-        `https://maitconnect.onrender.com/api/post/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            userId: postedUser,
-          },
-          body: JSON.stringify(dataToPost),
-        }
-      );
+      const res = await fetch(`/api/post/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          userId: postedUser,
+          token: token,
+        },
+        body: JSON.stringify(dataToPost),
+      });
       const data = await res.json();
       if (data.error) {
         return toast.error(data.error);

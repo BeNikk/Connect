@@ -52,6 +52,7 @@ const UserUpdate = () => {
   const { handleImageChange, imageUrl, setImageUrl } = useImagePreview();
   const [updating, setUpdating] = useState(false);
   const userHeader = localStorage.getItem("userId") || "";
+  const token = localStorage.getItem("token") || "";
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -77,17 +78,15 @@ const UserUpdate = () => {
         email: values.email,
       };
 
-      const res = await fetch(
-        `https://maitconnect.onrender.com/api/user/update/${user._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            userId: userHeader,
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
+      const res = await fetch(`/api/user/update/${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          userId: userHeader,
+          token: token,
+        },
+        body: JSON.stringify(updateData),
+      });
       const data = await res.json();
       if (data.error) {
         return toast.error("Error updating the profile");

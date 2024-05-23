@@ -31,14 +31,13 @@ const Postpage = () => {
   const { postId } = useParams();
   const currentUser = useRecoilValue<any>(userAtom);
   const userId = localStorage.getItem("userId") || "";
+  const token = localStorage.getItem("token") || "";
   const navigate = useNavigate();
 
   const getPosts = async () => {
     try {
       setLoading(true);
-      const res = await fetch(
-        `https://maitconnect.onrender.com/api/post/post/${postId}`
-      );
+      const res = await fetch(`/api/post/post/${postId}`);
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);
@@ -52,9 +51,7 @@ const Postpage = () => {
   };
   const getUser = async () => {
     try {
-      const res = await fetch(
-        `https://maitconnect.onrender.com/api/user/${username}`
-      );
+      const res = await fetch(`/api/user/${username}`);
       const data = await res.json();
 
       if (data.error) {
@@ -138,9 +135,14 @@ const Postpage = () => {
                                 onClick={async () => {
                                   try {
                                     const res = await fetch(
-                                      `https://maitconnect.onrender.com/api/post/post/${currentPost._id}`,
+                                      `/api/post/post/${currentPost._id}`,
                                       {
                                         method: "DELETE",
+                                        headers: {
+                                          "Content-Type": "application/json",
+                                          userId: userId,
+                                          token: token,
+                                        },
                                       }
                                     );
                                     const data = await res.json();
@@ -203,7 +205,7 @@ const Postpage = () => {
                     text: text,
                   };
                   const res = await fetch(
-                    `https://maitconnect.onrender.com/api/post/reply/${currentPost._id}`,
+                    `/api/post/reply/${currentPost._id}`,
                     {
                       method: "PUT",
                       headers: {

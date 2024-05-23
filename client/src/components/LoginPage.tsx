@@ -34,16 +34,13 @@ const LoginPage = () => {
   const setAuthscreen = useSetRecoilState(authScreenAtom);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch(
-        "https://maitconnect.onrender.com/api/user/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }
-      );
+      const res = await fetch("/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
       const data = await res.json();
       if (data.error) {
         toast.error(data.error);
@@ -51,6 +48,8 @@ const LoginPage = () => {
       } else {
         localStorage.setItem("user-Info", JSON.stringify(data));
         localStorage.setItem("userId", JSON.stringify(data._id));
+        localStorage.setItem("token", data.token);
+
         setUser(data);
 
         toast.success(data.message);

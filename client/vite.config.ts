@@ -14,7 +14,7 @@ export default defineConfig({
     //cors error resolved
     proxy:{
       "/api":{
-        target:"",
+        target:"http://localhost:3000/",
         changeOrigin:true,
         secure:false
       }

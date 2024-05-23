@@ -24,7 +24,8 @@ const Appbar = () => {
         toast.error(data.error);
       } else {
         localStorage.removeItem("user-Info");
-        toast.success(data.message);
+        localStorage.removeItem("token");
+        toast.success("logged out successfully");
         navigate("/auth");
 
         setUser(null);
