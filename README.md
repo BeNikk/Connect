@@ -2,6 +2,8 @@
 
 Connect is a social networking platform built using the MERN stack (MongoDB, Express, React, Node.js) and styled with Tailwind CSS. It allows users to create profiles, post updates, and interact with other users through likes and comments.
 
+![Connect Logo](./Connect.png)
+
 ## Features
 
 - User authentication and authorization
